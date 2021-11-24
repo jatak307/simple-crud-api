@@ -5,8 +5,9 @@ const http = require('http');
 const server = http.createServer((req, res) => {
   if(req.url === '/persons' && req.method === 'GET') {
     getPersons(req, res);
-  } else if(req.url.match(/\/persons\/([0-9]+)/ && req.method === 'GET')) {
-    const id = req.url.split('/')[2];
+  } else if(req.url.match(/\/persons\/([0-9]+)/) && req.method === 'GET') {
+    const urlArr = req.url.split('/');
+    const id = urlArr[urlArr.length - 1];
     getPerson(req, res, id);
   } else {
     res.writeHead(404, { 'Content-Type': 'application/json'});

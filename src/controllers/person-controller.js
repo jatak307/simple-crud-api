@@ -21,7 +21,7 @@ async function getPerson(req, res, id) {
 
     if(!person) {
       res.writeHead(404, { 'Content-Type': 'application/json'});
-      res.end(JSON.stringify({ message: 'Person not found' }));
+      res.end(JSON.stringify({ message: `Person with ID ${id} not found` }));
     } else {
       res.writeHead(200, { 'Content-Type': 'application/json'});
       res.end(JSON.stringify(person));

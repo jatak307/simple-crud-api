@@ -1,17 +1,17 @@
 require('dotenv').config();
-const { getPersons } = require('./src/controllers/person-controller');
+const { getPersons, getPerson } = require('./src/controllers/person-controller');
 const http = require('http');
-
-// const persons = [];
 
 const server = http.createServer((req, res) => {
   if(req.url === '/persons' && req.method === 'GET') {
     getPersons(req, res);
+  } else if(req.url.match(/\/persons\/([0-9]+)/ && req.method === 'GET')) {
+    const id = req.url.split('/')[2];
+    getPerson(req, res, id);
   } else {
     res.writeHead(404, { 'Content-Type': 'application/json'});
     res.end(JSON.stringify({message: 'Route Not Found'}));
   }
-  
 });
 
 const PORT = process.env.PORT || 7000;

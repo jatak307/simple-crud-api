@@ -1,5 +1,7 @@
 const Person = require('../models/person-model');
 
+// @desk    Gets All Persons
+// @route   GET /persons
 async function getPersons(req, res) {
   try {
     const persons = await Person.findAll();
@@ -11,6 +13,25 @@ async function getPersons(req, res) {
   }
 }
 
+// @desk    Gets Single Person
+// @route   GET /persons/:id
+async function getPerson(req, res, id) {
+  try {
+    const person = await Person.findPersonById(id);
+
+    if(!person) {
+      res.writeHead(404, { 'Content-Type': 'application/json'});
+      res.end(JSON.stringify({ message: 'Person not found' }));
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json'});
+      res.end(JSON.stringify(person));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
-  getPersons
+  getPersons,
+  getPerson
 }

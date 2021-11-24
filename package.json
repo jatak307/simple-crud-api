@@ -1,0 +1,19 @@
+{
+  "name": "simple-crud-api",
+  "version": "1.0.0",
+  "description": "Task-3",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jatak307/simple-crud-api.git"
+  },
+  "author": "Katsiaryna Afanasenka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jatak307/simple-crud-api/issues"
+  },
+  "homepage": "https://github.com/jatak307/simple-crud-api#readme"
+}

@@ -1,11 +1,11 @@
-const http = require('http');
+const persons = require('../data/persons.json');
 
-function find() {
+function findAll() {
   return new Promise((resolve, reject) => {
-    resolve(products);
+    resolve(persons);
   });
 }
 
 module.exports = {
-  find
+  findAll
 }

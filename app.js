@@ -1,12 +1,12 @@
 require('dotenv').config();
-// const http = require('http');
+const { getPersons } = require('./src/controllers/person-controller');
+const http = require('http');
 
-const persons = [];
+// const persons = [];
 
 const server = http.createServer((req, res) => {
   if(req.url === '/persons' && req.method === 'GET') {
-    res.writeHead(200, { 'Content-Type': 'application/json'});
-    res.end(JSON.stringify(persons));
+    getPersons(req, res);
   } else {
     res.writeHead(404, { 'Content-Type': 'application/json'});
     res.end(JSON.stringify({message: 'Route Not Found'}));

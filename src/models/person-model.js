@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require('uuid');
 const persons = require('../data/persons.json');
 
 function findAll() {
@@ -13,7 +14,16 @@ function findPersonById(id) {
   });
 }
 
+function create(person) {
+  return new Promise((resolve, reject) => {
+    const newPerson = { id: uuidv4(), ...person };
+    persons.push(newPerson);
+    resolve(newPerson);
+  });
+}
+
 module.exports = {
   findAll,
-  findPersonById
+  findPersonById,
+  create
 }

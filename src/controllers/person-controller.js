@@ -31,6 +31,24 @@ async function getPerson(req, res, id) {
   }
 }
 
+// @desk    Create a Person
+// @route   POST /persons
+async function createPerson(req, res) {
+  try {
+    const person = {
+      name: "Baton"
+    };
+
+    const newPerson = Person.create(person);
+
+    res.writeHead(201, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify(newPerson));
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   getPersons,
   getPerson

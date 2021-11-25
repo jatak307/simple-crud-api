@@ -71,10 +71,30 @@ async function updatePerson(req, res, id) {
         age: age || person.age,
         hobbies: hobbies || person.hobbies
       };
-      const updatedPerson = await Person.updatePerson(id, personData);
+      const updatedPerson = await Person.updatePers(id, personData);
 
       res.writeHead(200, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify(updatedPerson));
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// @desk    Delete Person
+// @route   DELETE /persons/:id
+async function deletePerson(req, res, id) {
+  try {
+    const person = await Person.findPersonById(id);
+    
+    if(!person) {
+      res.writeHead(404, { 'Content-Type': 'application/json'});
+      res.end(JSON.stringify({ message: `Person with ID ${id} not found` }));
+    } else {
+      await Person.deletePers(id);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ message: `Person ${id} removed` }));
     }
 
   } catch (error) {
@@ -86,5 +106,6 @@ module.exports = {
   getPersons,
   getPerson,
   createPerson,
-  updatePerson
+  updatePerson,
+  deletePerson
 }

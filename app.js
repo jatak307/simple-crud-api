@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { getPersons, getPerson, createPerson, updatePerson } = require('./src/controllers/person-controller');
+const { getPersons, getPerson, createPerson, updatePerson, deletePerson } = require('./src/controllers/person-controller');
 const http = require('http');
 
 const server = http.createServer((req, res) => {
@@ -14,6 +14,8 @@ const server = http.createServer((req, res) => {
     createPerson(req, res);
   } else if(req.url.match(/\/persons\/([0-9]+)/) && req.method === 'PUT') {
     updatePerson(req, res, id);
+  } else if(req.url.match(/\/persons\/([0-9]+)/) && req.method === 'DELETE') {
+    deletePerson(req, res, id);
   } else {
     res.writeHead(404, { 'Content-Type': 'application/json'});
     res.end(JSON.stringify({message: 'Route Not Found'}));

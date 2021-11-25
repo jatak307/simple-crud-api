@@ -24,8 +24,18 @@ function create(person) {
   });
 }
 
+function updatePerson(id, person) {
+  return new Promise((resolve, reject) => {
+    const index = persons.findIndex((pers) => pers.id === id);
+    persons[index] = { id, ...person };
+    writeDataToFile('src/data/persons.json', persons);
+    resolve(persons[index]);
+  });
+}
+
 module.exports = {
   findAll,
   findPersonById,
-  create
+  create,
+  updatePerson
 }

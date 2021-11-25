@@ -41,7 +41,7 @@ async function createPerson(req, res) {
     const body = await getPostData(req);
 
     if(!isValidPerson(JSON.parse(body))) {
-      res.writeHead(404, { 'Content-Type': 'application/json'});
+      res.writeHead(400, { 'Content-Type': 'application/json'});
       res.end(JSON.stringify({ message: 'Person object is not valid' }));
     } else {
       const { name, age, hobbies } = JSON.parse(body);

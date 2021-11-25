@@ -29,6 +29,12 @@ const server = http.createServer((req, res) => {
         deletePerson(req, res, id);
         break;
     }
+  } else if (req.url.length < 10 && req.url !== mainUrl) {
+    res.writeHead(500, { 'Content-Type': 'application/json'});
+    res.end(JSON.stringify({message: 'No trabajas!'}));
+  } else if (req.url.length > 10 && req.url !== personUrl) {
+    res.writeHead(400, { 'Content-Type': 'application/json'});
+    res.end(JSON.stringify({message: `ID ${id} is not valid`}));
   } else {
     res.writeHead(404, { 'Content-Type': 'application/json'});
     res.end(JSON.stringify({message: 'Route Not Found'}));

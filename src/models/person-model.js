@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const persons = require('../data/persons.json');
+const { writeDataToFile } = require('../utils/write-to-file');
 
 function findAll() {
   return new Promise((resolve, reject) => {
@@ -18,6 +19,7 @@ function create(person) {
   return new Promise((resolve, reject) => {
     const newPerson = { id: uuidv4(), ...person };
     persons.push(newPerson);
+    writeDataToFile('src/data/persons.json', persons);
     resolve(newPerson);
   });
 }

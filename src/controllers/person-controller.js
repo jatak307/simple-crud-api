@@ -39,7 +39,7 @@ async function createPerson(req, res) {
       name: "Baton"
     };
 
-    const newPerson = Person.create(person);
+    const newPerson = await Person.create(person);
 
     res.writeHead(201, { 'Content-Type': 'application/json' });
     return res.end(JSON.stringify(newPerson));
@@ -51,5 +51,6 @@ async function createPerson(req, res) {
 
 module.exports = {
   getPersons,
-  getPerson
+  getPerson,
+  createPerson
 }

@@ -5,16 +5,30 @@ const server = http.createServer((req, res) => {
   const urlArr = req.url.split('/');
   const id = urlArr[urlArr.length - 1];
 
-  if(req.url === '/persons' && req.method === 'GET') {
-    getPersons(req, res);
-  } else if(req.url.match(/\/persons\/([0-9]+)/) && req.method === 'GET') {
-    getPerson(req, res, id);
-  } else if(req.url === '/persons' && req.method === 'POST') {
-    createPerson(req, res);
-  } else if(req.url.match(/\/persons\/([0-9]+)/) && req.method === 'PUT') {
-    updatePerson(req, res, id);
-  } else if(req.url.match(/\/persons\/([0-9]+)/) && req.method === 'DELETE') {
-    deletePerson(req, res, id);
+  const mainUrl = '/persons';
+  const personUrl = /\/persons\/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}/;
+
+  if (req.url === mainUrl) {
+    switch (req.method) {
+      case 'GET':
+        getPersons(req, res);
+        break;
+      case 'POST':
+        createPerson(req, res);
+        break;
+    }
+  } else if (req.url.match(personUrl)) {
+    switch (req.method) {
+      case 'GET':
+        getPerson(req, res, id);
+        break;
+      case 'PUT':
+        updatePerson(req, res, id);
+        break;
+      case 'DELETE':
+        deletePerson(req, res, id);
+        break;
+    }
   } else {
     res.writeHead(404, { 'Content-Type': 'application/json'});
     res.end(JSON.stringify({message: 'Route Not Found'}));

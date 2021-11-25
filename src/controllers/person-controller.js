@@ -35,14 +35,26 @@ async function getPerson(req, res, id) {
 // @route   POST /persons
 async function createPerson(req, res) {
   try {
-    const person = {
-      name: "Baton"
-    };
 
-    const newPerson = await Person.create(person);
+    let body = '';
+    req.on('data', (chunk) => {
+      body += chunk.toString();
+    });
 
-    res.writeHead(201, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify(newPerson));
+    req.on('end', async () => {
+      const { name, age, hobbies } = JSON.parse(body);
+      
+      const person = {
+        name,
+        age,
+        hobbies
+      };
+
+      const newPerson = await Person.create(person);
+
+      res.writeHead(201, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify(newPerson));
+    });
 
   } catch (error) {
     console.log(error);

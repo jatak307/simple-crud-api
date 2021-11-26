@@ -4,9 +4,14 @@ const request = require("supertest");
 const data = require('../src/data/persons.json');
 
 describe("HTTP server", function () {
-    test("Should get an empty array", async () => {
+    test("Should get an array of data", async () => {
         const expectedResponse = data;
         const response = await request(server).get('/persons');
-        expect(response.body).toEqual(expectedResponse);
+        if (expectedResponse.length > 0) {
+            expect(response.body).toEqual(expectedResponse);
+        } else {
+            expect(response.body).toEqual([]);
+        }
+        
     });
 });

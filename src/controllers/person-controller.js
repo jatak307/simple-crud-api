@@ -103,8 +103,8 @@ async function deletePerson(req, res, id) {
       res.end(JSON.stringify({ message: `Person with ID ${id} not found` }));
     } else {
       await Person.deletePers(id);
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      return res.end(JSON.stringify({ message: `Person ${id} removed` }));
+      res.writeHead(204, { 'Content-Type': 'application/json' });
+      return res.end();
     }
 
   } catch (error) {

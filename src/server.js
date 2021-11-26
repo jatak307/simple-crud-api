@@ -3,12 +3,18 @@ const { getPersons, getPerson, createPerson, updatePerson, deletePerson } = requ
 
 const server = http.createServer((req, res) => {
   const urlArr = req.url.split('/');
-  const id = urlArr[urlArr.length - 1];
+  const id = urlArr[2];
 
   const mainUrl = '/persons';
   const personUrl = /\/persons\/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}/;
 
-  if (req.url === mainUrl) {
+  if (urlArr.length === 2 && req.url !== mainUrl) {
+    res.writeHead(500, { 'Content-Type': 'application/json'});
+    res.end(JSON.stringify({message: 'No trabaja!'}));
+  } else if (urlArr.length > 2 && id.length !== 36) {
+    res.writeHead(400, { 'Content-Type': 'application/json'});
+    res.end(JSON.stringify({message: `ID ${id} is not valid`}));
+  } else if (req.url === mainUrl) {
     switch (req.method) {
       case 'GET':
         getPersons(req, res);
@@ -29,12 +35,6 @@ const server = http.createServer((req, res) => {
         deletePerson(req, res, id);
         break;
     }
-  } else if (req.url.length < 10 && req.url !== mainUrl) {
-    res.writeHead(500, { 'Content-Type': 'application/json'});
-    res.end(JSON.stringify({message: 'No trabajas!'}));
-  } else if (req.url.length > 10 && req.url !== personUrl) {
-    res.writeHead(400, { 'Content-Type': 'application/json'});
-    res.end(JSON.stringify({message: `ID ${id} is not valid`}));
   } else {
     res.writeHead(404, { 'Content-Type': 'application/json'});
     res.end(JSON.stringify({message: 'Route Not Found'}));

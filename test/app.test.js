@@ -3,6 +3,8 @@ const server = require("../src/server");
 const request = require("supertest");
 const data = require('../src/data/persons.json');
 
+let persID = null;
+
 describe("HTTP server", function () {
     test("Should get an array of data", async () => {
         const expectedResponse = data;
@@ -30,6 +32,7 @@ describe("HTTP server", function () {
 
     test("Should get an object by its ID", async () => {
         const somePerson = data[data.length - 1];
+        persID = somePerson.id;
         const somePersonID = somePerson.id;
         const response = await request(server).get(`/persons/${somePersonID}`);
 
@@ -54,6 +57,13 @@ describe("HTTP server", function () {
         const responseObj = { message: `Person ${somePerson.id} removed` };
 
         const response = await request(server).delete(`/persons/${somePerson.id}`);
+        expect(response.body.message).toBe(responseObj.message);
+    });
+
+    test("Should receive an answer that the person with the specified ID was not found", async () => {
+        const responseObj = { message: `Person with ID ${persID} not found` };
+
+        const response = await request(server).get(`/persons/${persID}`);
         expect(response.body.message).toBe(responseObj.message);
     });
 });

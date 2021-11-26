@@ -27,4 +27,25 @@ describe("HTTP server", function () {
         expect(response.body.age).toBe(3000);
         expect(response.body.hobbies).toEqual(["to save the world", "dancing"]);
     });
+
+    test("Should get an object by its ID", async () => {
+        const somePerson = data[data.length - 1];
+        const somePersonID = somePerson.id;
+        const response = await request(server).get(`/persons/${somePersonID}`);
+
+        expect(response.body.id).toBe(somePerson.id);
+    });
+
+    test("Should update the previously created object. IDs of the original object and the updated one must match", async () => {
+        const somePerson = data[data.length - 1];
+        const updatePersonValues = {
+            "name": "Venom",
+            "hobbies": ["tearing off heads", "journalism"]
+        };
+        const response = await request(server).put(`/persons/${somePerson.id}`).send(updatePersonValues);
+
+        expect(response.body.id).toBe(somePerson.id);
+        expect(response.body.name).toBe(updatePersonValues.name);
+        expect(response.body.hobbies[1]).toBe(updatePersonValues.hobbies[1]);
+    });
 });

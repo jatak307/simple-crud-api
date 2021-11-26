@@ -51,10 +51,9 @@ describe("HTTP server", function () {
     });
 
     test("Scenario #5. DELETE: should delete the object with the specified ID and receive a message about successful deletion", async () => {
-        const responseObj = { message: `Person ${persID} removed` };
         const response = await request(server).delete(`/persons/${persID}`);
 
-        expect(response.body.message).toBe(responseObj.message);
+        expect(response.statusCode).toBe(204);
     });
 
     test("Scenario #6. GET: should receive an answer that the person with the specified ID was not found", async () => {

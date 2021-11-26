@@ -48,4 +48,12 @@ describe("HTTP server", function () {
         expect(response.body.name).toBe(updatePersonValues.name);
         expect(response.body.hobbies[1]).toBe(updatePersonValues.hobbies[1]);
     });
+
+    test("Should delete the object with the specified ID and receive a message about successful deletion", async () => {
+        const somePerson = data[data.length - 1];
+        const responseObj = { message: `Person ${somePerson.id} removed` };
+
+        const response = await request(server).delete(`/persons/${somePerson.id}`);
+        expect(response.body.message).toBe(responseObj.message);
+    });
 });

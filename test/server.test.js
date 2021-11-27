@@ -2,6 +2,7 @@ const { expect } = require('@jest/globals');
 const server = require("../src/server");
 const request = require("supertest");
 const data = require('../src/data/persons.json');
+const { writeDataToFile } = require('../src/utils/write-to-file');
 
 let persID = null;
 

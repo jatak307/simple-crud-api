@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest",
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "build": "webpack"
+    "start:dev": "nodemon app.js",
+    "start:prod": "webpack --mode production && node ./dist/bundle.js"
   },
   "repository": {
     "type": "git",

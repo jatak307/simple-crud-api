@@ -5,7 +5,7 @@ const data = require('../src/data/persons.json');
 
 let persID = null;
 
-describe("HTTP server", function () {
+describe("HTTP server. SCENARIO #1", function () {
     test("Scenario #1. GET: should get an array of data", async () => {
         const response = await request(server).get('/persons');
 
@@ -36,7 +36,7 @@ describe("HTTP server", function () {
         const response = await request(server).get(`/persons/${persID}`);
 
         expect(response.body.id).toBe(persID);
-    });
+    });   
 
     test("Scenario #4. PUT: should update the previously created object. IDs of the original object and the updated one must match", async () => {
         const updatePersonValues = {
@@ -59,6 +59,7 @@ describe("HTTP server", function () {
     test("Scenario #6. GET: should receive an answer that the person with the specified ID was not found", async () => {
         const responseObj = { message: `Person with ID ${persID} not found` };
         const response = await request(server).get(`/persons/${persID}`);
+        persID = null;
 
         expect(response.body.message).toBe(responseObj.message);
     });

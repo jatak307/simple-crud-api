@@ -6,8 +6,8 @@ const { writeDataToFile } = require('../src/utils/write-to-file');
 
 let persID = null;
 
-describe("HTTP server. SCENARIO #1", function () {
-    test("Scenario #1. GET: should get an array of data", async () => {
+describe("SCENARIO #1", function () {
+    test("GET: should get an array of data", async () => {
         const response = await request(server).get('/persons');
 
         if (data.length > 0) {
@@ -17,7 +17,7 @@ describe("HTTP server. SCENARIO #1", function () {
         }
     });
 
-    test("Scenario #2. POST: should write a new person to the data array and get the object of the new person", async () => {
+    test("POST: should write a new person to the data array and get the object of the new person", async () => {
         const newPerson = {
             "name": "Voltron",
             "age": 3000,
@@ -31,7 +31,7 @@ describe("HTTP server. SCENARIO #1", function () {
         expect(response.body.hobbies).toEqual(newPerson.hobbies);
     });
 
-    test("Scenario #3. GET: should get an object by its ID", async () => {
+    test("GET: should get an object by its ID", async () => {
         const somePerson = data[data.length - 1];
         persID = somePerson.id;
         const response = await request(server).get(`/persons/${persID}`);
@@ -39,7 +39,7 @@ describe("HTTP server. SCENARIO #1", function () {
         expect(response.body.id).toBe(persID);
     });   
 
-    test("Scenario #4. PUT: should update the previously created object. IDs of the original object and the updated one must match", async () => {
+    test("PUT: should update the previously created object. IDs of the original object and the updated one must match", async () => {
         const updatePersonValues = {
             "name": "Venom",
             "hobbies": ["tearing off heads", "journalism"]
@@ -51,17 +51,58 @@ describe("HTTP server. SCENARIO #1", function () {
         expect(response.body.hobbies[1]).toBe(updatePersonValues.hobbies[1]);
     });
 
-    test("Scenario #5. DELETE: should delete the object with the specified ID and receive a message about successful deletion", async () => {
-        const response = await request(server).delete(`/persons/${persID}`);
+    test("DELETE: should delete the object with the specified ID and receive a message about successful deletion", () => {
+        async function callback() {
+            const response = await request(server).delete(`/persons/${persID}`);
 
-        expect(response.statusCode).toBe(204);
+            expect(response.statusCode).toBe(204);
+        }
+        
+        callback();
     });
 
-    test("Scenario #6. GET: should receive an answer that the person with the specified ID was not found", async () => {
+    test("GET: should receive an answer that the person with the specified ID was not found", () => {
         const responseObj = { message: `Person with ID ${persID} not found` };
-        const response = await request(server).get(`/persons/${persID}`);
-        persID = null;
 
-        expect(response.body.message).toBe(responseObj.message);
+        async function callback() {
+            const response = await request(server).get(`/persons/${persID}`);
+            expect(response.body.message).toBe(responseObj.message);
+        }
+        
+        callback(); 
+        persID = null;
     });
 });
+
+describe('SCENARIO #2. Statuscodes', function() {
+    afterAll(() => writeDataToFile([]));
+
+    test("Should be 200", async () => {
+        const response = await request(server).get('/persons');
+        expect(response.statusCode).toBe(200);
+    });
+
+    test("Should be 201", async () => {
+        const newPerson = {
+            "name": "Scenario 2",
+            "age": 3000,
+            "hobbies": ["to save the world", "dancing"]
+        };
+        try {
+            const response = await request(server).post('/persons').send(newPerson);
+            expect(response.statusCode).toBe(201);
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    test("Should be 404", async () => {
+        try {
+            const somePerson = data[data.length - 1];
+            persID = somePerson.id;
+            await request(server).delete(`/persons/${persID}`);
+        } catch (error) {
+            expect(error).toBe(404);
+        }
+    });
+})

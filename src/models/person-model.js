@@ -19,7 +19,7 @@ function create(person) {
   return new Promise((resolve, reject) => {
     const newPerson = { id: uuidv4(), ...person };
     persons.push(newPerson);
-    writeDataToFile('src/data/persons.json', persons);
+    writeDataToFile(persons);
     resolve(newPerson);
   });
 }
@@ -28,7 +28,7 @@ function updatePers(id, person) {
   return new Promise((resolve, reject) => {
     const index = persons.findIndex((pers) => pers.id === id);
     persons[index] = { id, ...person };
-    writeDataToFile('src/data/persons.json', persons);
+    writeDataToFile(persons);
     resolve(persons[index]);
   });
 }
@@ -36,7 +36,7 @@ function updatePers(id, person) {
 function deletePers(id) {
   return new Promise((resolve, reject) => {
     persons = persons.filter((pers) => pers.id !== id);
-    writeDataToFile('src/data/persons.json', persons);
+    writeDataToFile(persons);
     resolve();
   });
 }

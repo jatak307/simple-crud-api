@@ -106,3 +106,62 @@ describe('SCENARIO #2. Statuscodes', function() {
         }
     });
 })
+
+describe("SCENARIO #3. First add three persons, and then remove all", function () {
+    test("POST: should write a new person to the data array and get the object of the new person", async () => {
+        const newPerson = {
+            "name": "Scenario 3",
+            "age": 3000,
+            "hobbies": ["to save the world", "dancing"]
+        };
+        const response = await request(server).post('/persons').send(newPerson);
+
+        expect(response.body.id).toBeDefined();
+        expect(response.body.name).toBe(newPerson.name);
+        expect(response.body.age).toBe(newPerson.age);
+        expect(response.body.hobbies).toEqual(newPerson.hobbies);
+    });
+
+    test("POST: should write a new person to the data array and get the object of the new person", async () => {
+        const newPerson = {
+            "name": "Scenario 3",
+            "age": 3000,
+            "hobbies": ["to save the world", "dancing"]
+        };
+        const response = await request(server).post('/persons').send(newPerson);
+
+        expect(response.body.id).toBeDefined();
+        expect(response.body.name).toBe(newPerson.name);
+        expect(response.body.age).toBe(newPerson.age);
+        expect(response.body.hobbies).toEqual(newPerson.hobbies);
+    });
+
+    test("POST: should write a new person to the data array and get the object of the new person", async () => {
+        const newPerson = {
+            "name": "Scenario 3",
+            "age": 3000,
+            "hobbies": ["to save the world", "dancing"]
+        };
+        const response = await request(server).post('/persons').send(newPerson);
+
+        expect(response.body.id).toBeDefined();
+        expect(response.body.name).toBe(newPerson.name);
+        expect(response.body.age).toBe(newPerson.age);
+        expect(response.body.hobbies).toEqual(newPerson.hobbies);
+    });
+
+    test("DELETE: Should remove all persons from the array", async () => {
+        async function callback() {
+            const data = await request(server).get('/persons');
+            data.body.forEach(async (pers, i, arr) => {
+                await request(server).delete(`/persons/${pers.id}`);
+                if(arr.length === 1) {
+                    const res = await request(server).get('/persons');
+                    expect(res.body.length).toBe(0);
+                }
+            });
+        }
+        
+        callback();
+    });
+});

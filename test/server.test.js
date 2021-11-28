@@ -75,8 +75,6 @@ describe("SCENARIO #1", function () {
 });
 
 describe('SCENARIO #2. Statuscodes', function() {
-    afterAll(() => writeDataToFile([]));
-
     test("Should be 200", async () => {
         const response = await request(server).get('/persons');
         expect(response.statusCode).toBe(200);

@@ -15,6 +15,8 @@
 1. to check the server operation, use the Postman application (port number - 8000 - is specified in the .env file)
 2. to run the tests use the command **npm run test**
 
+***if you are using jest extension make sure json settings file is disabled auto enable: "jest.autoEnable": false***
+
 ### API path /person:
 * GET **/person** or **/person/${id}** - to return all persons or person with corresponding personId
 * POST **/person** is used to create record about new person and store it in database

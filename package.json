@@ -1,5 +1,9 @@
 {
   "name": "simple-crud-api",
+  "jest": {
+    "bail": 1,
+    "verbose": true
+  },
   "version": "1.0.0",
   "description": "Task-3",
   "main": "app.js",

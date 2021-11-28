@@ -16,7 +16,7 @@
 2. to run the tests use the command **npm run test**
 
 ### API path /person:
-* GET **/person** or **/person/${personId}** - to return all persons or person with corresponding personId
+* GET **/person** or **/person/${id}** - to return all persons or person with corresponding personId
 * POST **/person** is used to create record about new person and store it in database
-* PUT **/person/${personId}** is used to update record about existing person
-* DELETE **/person/${personId}** is used to delete record about existing person from database
+* PUT **/person/${id}** is used to update record about existing person
+* DELETE **/person/${id}** is used to delete record about existing person from database
